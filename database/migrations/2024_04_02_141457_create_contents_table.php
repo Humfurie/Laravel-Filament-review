@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('contents', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Domain\Post\Model\Post::class);
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image_name')->nullable();
+            $table->string('google_drive_url')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('contents');
     }
 };
