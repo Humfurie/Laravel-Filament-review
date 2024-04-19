@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image_name')->nullable();
             $table->string('google_drive_url')->nullable();
+            $table->enum('type',['text', 'image']);
             $table->timestamps();
         });
     }
