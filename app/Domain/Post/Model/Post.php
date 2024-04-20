@@ -2,12 +2,12 @@
 
 namespace App\Domain\Post\Model;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -15,6 +15,7 @@ class Post extends Model
         'slug',
         'description',
         'category_id',
+        'content',
         'published_date',
         'tags',
         'image',
@@ -22,6 +23,7 @@ class Post extends Model
     ];
 
     protected $casts = [
-      'published_date' => 'datetime'
+        'published_date' => 'datetime',
+        'tags' => 'json'
     ];
 }

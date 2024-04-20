@@ -35,6 +35,7 @@ class PostResource extends Resource
                             1 => 'waw',
                             2 => 'wawaw'
                         ]),
+                        Forms\Components\RichEditor::make('content'),
                         Forms\Components\DateTimePicker::make('published_at')->nullable(),
                         Forms\Components\TagsInput::make('tags')->nullable(),
                         Forms\Components\FileUpload::make('image')->nullable(),
@@ -47,6 +48,7 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('slug'),
                 Tables\Columns\SelectColumn::make('category'),
                 Tables\Columns\TextColumn::make('published_at')
             ])
@@ -55,6 +57,8 @@ class PostResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

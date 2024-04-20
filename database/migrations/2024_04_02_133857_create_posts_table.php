@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->foreignIdFor(\App\Domain\Category\Model\Category::class);
+            $table->text('content');
             $table->timestamp('published_date')->nullable();
-            $table->string('tags')->nullable();
+            $table->json('tags')->nullable();
             $table->string('image');
             $table->string('google_drive_url');
             $table->timestamps();
