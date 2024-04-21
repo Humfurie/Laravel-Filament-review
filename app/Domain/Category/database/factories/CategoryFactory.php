@@ -3,7 +3,7 @@
 namespace App\Domain\Category\database\factories;
 
 
-use App\Domain\Category\Model\Category;
+use App\Domain\Category\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

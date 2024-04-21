@@ -53,18 +53,23 @@ it('can list posts', function () {
 });
 
 it('can create posts', function () {
+
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
+
     $title = 'First Post';
+
+    $data = [
+        'title' => $title,
+        'description' => 'tis is description',
+        'category_id' => $category->id,
+        'content' => "<p>humps what are you doing</p>",
+        'published_date' => now()->format('Y-m-d H:i:s'),
+        'tags' => "[\'one\', \'two\']",
+        'image' => ["humps.png"],
+    ];
+
     livewire(\App\Filament\Resources\PostResource\Pages\CreatePost::class)
-        ->fillForm([
-            'title' => $title,
-            'description' => 'tis is description',
-            'category_id' => $category->id,
-            'content' => "<p>humps what are you doing</p>",
-            'published_date' => now(),
-            'tags' => ['one', 'two'],
-            'image' => ["humps.png"],
-        ])
+        ->fillForm($data)
         ->assertFormSet([
             'slug' => \Illuminate\Support\Str::slug($title),
         ])
@@ -72,29 +77,39 @@ it('can create posts', function () {
         ->assertHasNoFormErrors()
         ->instance()
         ->record;
+
+    $this->assertDatabaseHas('posts', $data);
 });
 
 it('can update posts', function () {
+
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
+
     $post = \App\Domain\Post\database\factories\PostFactory::new([
         'user_id' => 1,
         'category_id' => (int)$category->id
     ])->createOne();
+
     $title = 'Second Post';
+
+    $data = [
+        'title' => $title,
+        'description' => 'tis is description',
+        'category_id' => $category->id,
+        'content' => "<p>humps what are you doing</p>",
+        'published_date' => now()->format('Y-m-d H:i:s'),
+        'tags' => "[\'one\', \'two\']",
+        'image' => ["humps.png"],
+    ];
+
     livewire(\App\Filament\Resources\PostResource\Pages\EditPost::class, ['record' => $post->getRouteKey()])
-        ->fillForm([
-            'title' => $title,
-            'description' => 'tis is description',
-            'category_id' => $category->id,
-            'content' => "<p>humps what are you doing</p>",
-            'published_date' => now(),
-            'tags' => ['one', 'two'],
-            'image' => ["humps.png"],
-        ])
+        ->fillForm($data)
         ->call('save')
         ->assertHasNoFormErrors()
         ->instance()
         ->record;
+
+    $this->assertDatabaseHas('posts', $data);
 });
 
 it('can delete posts', function () {

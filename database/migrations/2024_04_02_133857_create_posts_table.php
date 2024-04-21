@@ -17,12 +17,11 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->foreignIdFor(\App\Domain\Category\Model\Category::class);
+            $table->foreignIdFor(\App\Domain\Category\Models\Category::class);
             $table->text('content');
             $table->timestamp('published_date')->nullable();
             $table->json('tags')->nullable();
             $table->string('image');
-            $table->string('google_drive_url');
             $table->timestamps();
             $table->softDeletes();
         });

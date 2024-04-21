@@ -1,9 +1,25 @@
 <?php
 
-namespace App\Domain\Post\Model;
+namespace App\Domain\Post\Models;
 
+use DateTime;
+use Filament\Forms\Components\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $slug
+ * @property string $description
+ * @property int $category_id
+ * @property string $content
+ * @property DateTime $published_date
+ * @property string $tags
+ * @property string $image
+ *
+ * @method static create(array $array)
+ */
 
 class Post extends Model
 {
@@ -19,7 +35,6 @@ class Post extends Model
         'published_date',
         'tags',
         'image',
-        'google_drive_url'
     ];
 
     protected $casts = [

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Domain\Post\Model\Post::class);
+            $table->foreignIdFor(\App\Domain\Post\Models\Post::class);
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('image_name')->nullable();

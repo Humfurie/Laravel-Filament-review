@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Domain\Post\Model\Post;
+use App\Domain\Category\Models\Category;
+use App\Domain\Post\Models\Post;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use Filament\Forms;
@@ -25,18 +26,20 @@ class PostResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\TextInput::make('title')
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(fn(Forms\Set $set, ?string $state) => $set('slug', Str::slug($state))),
                         Forms\Components\TextInput::make('slug')
-                            ->disabled(),
+                            ->disabled()
+                            ->dehydrated(),
                         Forms\Components\Textarea::make('description'),
-                        Forms\Components\Select::make('category')
+                        Forms\Components\Select::make('category_id')
                         ->options([
                             1 => 'waw',
                             2 => 'wawaw'
                         ]),
                         Forms\Components\RichEditor::make('content'),
-                        Forms\Components\DateTimePicker::make('published_at')->nullable(),
+                        Forms\Components\DateTimePicker::make('published_date')
+                            ->nullable(),
                         Forms\Components\TagsInput::make('tags')->nullable(),
                         Forms\Components\FileUpload::make('image')->nullable(),
                     ])
@@ -49,8 +52,8 @@ class PostResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\SelectColumn::make('category'),
-                Tables\Columns\TextColumn::make('published_at')
+//                Tables\Columns\TextColumn::make('category_id')->formatStateUsing(fn($record) => dd($record->category()->name)),
+                Tables\Columns\TextColumn::make('published_date')
             ])
             ->filters([
                 //

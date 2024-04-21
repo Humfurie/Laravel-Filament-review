@@ -2,8 +2,8 @@
 
 namespace App\Domain\Post\database\factories;
 
-use App\Domain\Category\Model\Category;
-use App\Domain\Post\Model\Post;
+use App\Domain\Category\Models\Category;
+use App\Domain\Post\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -31,7 +31,6 @@ class PostFactory extends Factory
             'published_date' => now(),
             'tags' => [fake()->word],
             'image' => fake()->word,
-            'google_drive_url' => fake()->url
         ];
     }
 }
