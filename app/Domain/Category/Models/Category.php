@@ -2,8 +2,10 @@
 
 namespace App\Domain\Category\Models;
 
+use App\Domain\Post\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -25,6 +27,11 @@ class Category extends Model
     ];
 
     protected $casts = [
-      'is_visible' => 'bool'
+        'is_visible' => 'bool'
     ];
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
 }

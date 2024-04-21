@@ -2,9 +2,12 @@
 
 namespace App\Domain\Post\Models;
 
+use App\Domain\Category\Models\Category;
+use App\Domain\User\Models\User;
 use DateTime;
 use Filament\Forms\Components\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -41,4 +44,14 @@ class Post extends Model
         'published_date' => 'datetime',
         'tags' => 'json'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
