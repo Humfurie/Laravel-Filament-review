@@ -124,7 +124,7 @@ it('can delete posts', function () {
         ->assertOk();
 });
 
-it('can restore posts', function () {
+it('can restore deleted posts', function () {
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
     $post = \App\Domain\Post\database\factories\PostFactory::new([
         'user_id' => 1,

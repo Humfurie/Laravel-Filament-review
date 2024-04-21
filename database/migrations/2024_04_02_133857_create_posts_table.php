@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Domain\User\Models\User::class);
+            $table->foreignIdFor(\App\Domain\User\Models\User::class)->constrained();
             $table->string('title');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->foreignIdFor(\App\Domain\Category\Models\Category::class);
+            $table->foreignIdFor(\App\Domain\Category\Models\Category::class)->constrained();
             $table->text('content');
             $table->timestamp('published_date')->nullable();
             $table->json('tags')->nullable();

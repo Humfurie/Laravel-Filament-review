@@ -26,17 +26,15 @@ class PostResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\TextInput::make('title')
-                            ->live(onBlur: true)
+                            ->lazy()
                             ->afterStateUpdated(fn(Forms\Set $set, ?string $state) => $set('slug', Str::slug($state))),
                         Forms\Components\TextInput::make('slug')
                             ->disabled()
-                            ->dehydrated(),
+                            ->dehydrated()
+                            ->visibleOn('create'),
                         Forms\Components\Textarea::make('description'),
                         Forms\Components\Select::make('category_id')
-                        ->options([
-                            1 => 'waw',
-                            2 => 'wawaw'
-                        ]),
+                            ->options(Category::query()->where('is_visible', true)->pluck('name', 'id')),
                         Forms\Components\RichEditor::make('content'),
                         Forms\Components\DateTimePicker::make('published_date')
                             ->nullable(),
@@ -73,7 +71,6 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
