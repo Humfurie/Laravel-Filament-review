@@ -24,4 +24,4 @@ it('can authenticate users', function () {
         ])
         ->call('authenticate')
         ->assertSuccessful();
-})->only();
+});
