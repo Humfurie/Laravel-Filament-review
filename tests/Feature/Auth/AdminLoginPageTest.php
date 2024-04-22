@@ -5,7 +5,7 @@ use App\Domain\User\database\factories\UserFactory;
 use function Pest\Livewire\livewire;
 
 it('can render login page', function () {
-    livewire(\Filament\Pages\Auth\Login::class)->assertSuccessful();
+    livewire(\Filament\Pages\Auth\Login::class)->assertFormExists();
 });
 
 //it('can authenticate users', function () {
