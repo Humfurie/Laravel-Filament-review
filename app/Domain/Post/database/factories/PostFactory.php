@@ -32,7 +32,7 @@ class PostFactory extends Factory
             'content' => "<p>this is a test</p>",
             'published_date' => now(),
             'tags' => [fake()->word],
-            'status' => Arr::random(Status::class),
+            'status' => Arr::random((array)Status::class),
             'image' => fake()->word,
         ];
     }
