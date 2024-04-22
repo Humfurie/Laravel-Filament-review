@@ -28,7 +28,7 @@ it('can render create page', function () {
 it('can render edit page', function () {
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
     $post = \App\Domain\Post\database\factories\PostFactory::new([
-        'user_id' => 1,
+        'user_id' => auth()->user()->id,
         'category_id' => (int)$category->id
     ])
         ->createOne();
@@ -41,7 +41,7 @@ it('can render edit page', function () {
 it('can list posts', function () {
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
     $posts = \App\Domain\Post\database\factories\PostFactory::new([
-        'user_id' => 1,
+        'user_id' => auth()->user()->id,
         'category_id' => (int)$category->id
     ])
         ->count(10)
@@ -63,9 +63,10 @@ it('can create posts', function () {
         'description' => 'tis is description',
         'category_id' => $category->id,
         'content' => "<p>humps what are you doing</p>",
-        'published_date' => now()->format('Y-m-d H:i:s'),
-        'tags' => "[\'one\', \'two\']",
+        'tags' => "['one', 'two']",
+        'status' => \App\Domain\Post\Enums\Status::ACTIVE->value,
         'image' => ["humps.png"],
+        'published_date' => now()->format('Y-m-d H:i:s'),
     ];
 
     livewire(\App\Filament\Resources\PostResource\Pages\CreatePost::class)
@@ -86,7 +87,7 @@ it('can update posts', function () {
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
 
     $post = \App\Domain\Post\database\factories\PostFactory::new([
-        'user_id' => 1,
+        'user_id' => auth()->user()->id,
         'category_id' => (int)$category->id
     ])->createOne();
 
@@ -97,8 +98,8 @@ it('can update posts', function () {
         'description' => 'tis is description',
         'category_id' => $category->id,
         'content' => "<p>humps what are you doing</p>",
-        'published_date' => now()->format('Y-m-d H:i:s'),
-        'tags' => "[\'one\', \'two\']",
+        'tags' => "['one', 'two']",
+        'status' => \App\Domain\Post\Enums\Status::INACTIVE->value,
         'image' => ["humps.png"],
     ];
 
@@ -115,7 +116,7 @@ it('can update posts', function () {
 it('can delete posts', function () {
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
     $post = \App\Domain\Post\database\factories\PostFactory::new([
-        'user_id' => 1,
+        'user_id' => auth()->user()->id,
         'category_id' => (int)$category->id
     ])->createOne();
 
@@ -127,7 +128,7 @@ it('can delete posts', function () {
 it('can restore deleted posts', function () {
     $category = \App\Domain\Category\database\factories\CategoryFactory::new()->createOne();
     $post = \App\Domain\Post\database\factories\PostFactory::new([
-        'user_id' => 1,
+        'user_id' => auth()->user()->id,
         'category_id' => (int)$category->id
     ])
         ->trashed()

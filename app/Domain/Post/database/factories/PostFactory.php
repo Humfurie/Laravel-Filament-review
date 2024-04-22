@@ -23,16 +23,17 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $title = fake()->title;
+        $status = Arr::random(Status::cases());
         return [
-            'user_id' => auth()->user(),
+            'user_id' => auth()->user()->id,
             'title' => $title,
             'slug' => Str::slug($title),
             'description' => fake()->sentence,
             'category_id' => Category::query()->inRandomOrder()->first(),
             'content' => "<p>this is a test</p>",
-            'published_date' => now(),
             'tags' => [fake()->word],
-            'status' => Arr::random((array)Status::class),
+            'status' => $status,
+            'published_date' => $status === Status::ACTIVE->value ? now() : null,
             'image' => fake()->word,
         ];
     }

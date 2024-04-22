@@ -24,9 +24,9 @@ class CreatePost extends CreateRecord
                 'category_id' => $data['category_id'],
                 'content' => $data['content'],
                 'tags' => $data['tags'],
-                'status' => $data['status'] ?? Status::INACTIVE,
+                'status' => $data['status'] ?? Status::INACTIVE->value,
                 'image' => $data['image'],
-                'published_date' => $data['status'] === Status::ACTIVE ? $data['published_date'] : null,
+                'published_date' => $data['status'] === Status::ACTIVE->value ? ($data['published_date'] ?? null) : null,
             ]);
         });
     }
