@@ -2,6 +2,10 @@
 
 use function Pest\Livewire\livewire;
 
+beforeEach(function () {
+    $this->actingAs(\App\Domain\User\database\factories\UserFactory::new()->create());
+});
+
 /**
  * It can render page
  * It can list posts
@@ -12,7 +16,6 @@ use function Pest\Livewire\livewire;
  * It can restore deleted posts
  *
  */
-
 
 it('can render list page', function () {
     livewire(\App\Filament\Resources\PostResource\Pages\ListPosts::class)

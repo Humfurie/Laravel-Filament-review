@@ -10,10 +10,4 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->actingAs(UserFactory::new()->create());
-    }
 }
