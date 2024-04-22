@@ -3,6 +3,7 @@
 namespace App\Domain\Post\Models;
 
 use App\Domain\Category\Models\Category;
+use App\Domain\Post\Enums\Status;
 use App\Domain\User\Models\User;
 use DateTime;
 use Filament\Forms\Components\Builder;
@@ -37,12 +38,14 @@ class Post extends Model
         'content',
         'published_date',
         'tags',
+        'status',
         'image',
     ];
 
     protected $casts = [
         'published_date' => 'datetime',
-        'tags' => 'json'
+        'tags' => 'json',
+        'status' => Status::class
     ];
 
     public function user(): BelongsTo
@@ -52,6 +55,6 @@ class Post extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, '');
     }
 }

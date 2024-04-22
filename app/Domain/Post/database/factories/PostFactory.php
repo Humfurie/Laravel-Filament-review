@@ -3,8 +3,10 @@
 namespace App\Domain\Post\database\factories;
 
 use App\Domain\Category\Models\Category;
+use App\Domain\Post\Enums\Status;
 use App\Domain\Post\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -30,6 +32,7 @@ class PostFactory extends Factory
             'content' => "<p>this is a test</p>",
             'published_date' => now(),
             'tags' => [fake()->word],
+            'status' => Arr::random(Status::class),
             'image' => fake()->word,
         ];
     }

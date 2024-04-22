@@ -19,9 +19,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignIdFor(\App\Domain\Category\Models\Category::class)->constrained();
             $table->text('content');
-            $table->timestamp('published_date')->nullable();
+            $table->enum('status', ['active', 'inactive']);
             $table->json('tags')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
+            $table->timestamp('published_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

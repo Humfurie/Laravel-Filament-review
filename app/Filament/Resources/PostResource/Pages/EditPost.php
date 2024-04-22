@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PostResource\Pages;
 
+use App\Domain\Post\Enums\Status;
 use App\Domain\Post\Models\Post;
 use App\Filament\Resources\PostResource;
 use Filament\Actions;
@@ -24,13 +25,15 @@ class EditPost extends EditRecord
     {
         return DB::transaction(function () use ($record, $data) {
              $record->update([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'category_id' => $data['category_id'],
-                'content' => $data['content'],
-                'published_date' => $data['published_date'],
-                'tags' => $data['tags'],
-                'image' => $data['image'],
+                 'user_id' => auth()->user()->id ?? 1,
+                 'title' => $data['title'],
+                 'description' => $data['description'],
+                 'category_id' => $data['category_id'],
+                 'content' => $data['content'],
+                 'tags' => $data['tags'],
+                 'status' => $data['status'] ?? Status::INACTIVE,
+                 'image' => $data['image'],
+                 'published_date' => $data['status'] === Status::ACTIVE ? $data['published_date'] : null,
             ]);
 
             return $record;
