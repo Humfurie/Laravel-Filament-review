@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Domain\User\Models\User;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -20,7 +21,13 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->disabledOn('edit'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->hiddenOn('edit')
             ]);
     }
 
@@ -28,7 +35,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('updated_at'),
             ])
             ->filters([
                 //
