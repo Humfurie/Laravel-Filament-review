@@ -10,15 +10,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    use HasApiTokens, Notifiable;
     protected $fillable = [
         'name',
         'email',
@@ -44,6 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(): bool
+    {
+        return $this->id === 1;
+    }
 
     public function posts(): HasMany
     {

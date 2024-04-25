@@ -44,7 +44,10 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                ->visible(fn($record) => auth()->id() === 1 ),
+                Tables\Actions\DeleteAction::make()
+                ->hidden(fn($record) => $record->isAdmin()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
