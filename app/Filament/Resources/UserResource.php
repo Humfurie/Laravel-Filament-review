@@ -17,6 +17,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -45,9 +47,15 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->visible(fn($record) => auth()->id() === 1 ),
+                    ->visible(function () {
+                        $user = auth()->user();
+                        return $user instanceof User && $user->isAdmin();
+                    }),
                 Tables\Actions\DeleteAction::make()
-                ->hidden(fn($record) => $record->isAdmin()),
+                    ->visible(function () {
+                        $user = auth()->user();
+                        return $user instanceof User && $user->isAdmin();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

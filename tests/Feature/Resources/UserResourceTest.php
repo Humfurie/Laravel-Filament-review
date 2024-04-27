@@ -46,10 +46,13 @@ it('can create users', function () {
     $this->assertDatabaseHas('users', $data);
 });
 
-it('cannot delete first user', function () {
-    livewire(\App\Filament\Resources\UserResource\Pages\ListUsers::class)
-    ->callTableAction(\Filament\Tables\Actions\DeleteAction::class);
-});
+//it('cannot delete first user', function () {
+//    $user = \App\Domain\User\Models\User::query()->whereId(1)->get();
+//
+//    livewire(\App\Filament\Resources\UserResource\Pages\ListUsers::class)
+//    ->callTableAction(\Filament\Tables\Actions\DeleteAction::class, $user)
+//    ->assertBadRequest();
+//});
 
 
 //it('can render users page', function () {

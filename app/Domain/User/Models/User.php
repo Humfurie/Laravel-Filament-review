@@ -42,6 +42,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool Returns true if the user is an admin, false otherwise.
+     */
     public function isAdmin(): bool
     {
         return $this->id === 1;
