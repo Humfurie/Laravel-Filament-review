@@ -2,7 +2,7 @@
 
 namespace App\Domain\Permission\Enums;
 
-enum Permission:string
+enum PermissionEnum:string
 {
     case VIEWANY = "viewAny";
     case VIEW = 'view';
