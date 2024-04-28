@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Domain\User\Models\User;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,11 +17,19 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->disabledOn('edit'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->hiddenOn('edit')
             ]);
     }
 
@@ -28,13 +37,25 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('updated_at'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(function () {
+                        $user = auth()->user();
+                        return $user instanceof User && $user->isAdmin();
+                    }),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(function () {
+                        $user = auth()->user();
+                        return $user instanceof User && $user->isAdmin();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
