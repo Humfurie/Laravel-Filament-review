@@ -2,12 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Domain\Permission\Enums\Permission;
+use App\Domain\Permission\Models\Permission;
 use App\Domain\Role\Models\Role;
 use App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Resources\RoleResource\RelationManagers;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -22,11 +23,40 @@ class RoleResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $permissionsByType = [];
+
+        foreach (Permission::query()->pluck('name', 'id') as $permissions) {
+
+            list($type, $action) = explode('.', $permissions, 2);
+
+            if (!isset($permissionsByType[$type])) {
+                $permissionsByType[$type] = [];
+            }
+
+            $permissionsByType[$type][] = $permissions;
+        }
+        $checkboxListSchema = [];
+
+        foreach ($permissionsByType as $key => $permission) {
+            $checkboxListSchema[] = Section::make($key)
+                ->schema([
+                    CheckboxList::make($key)
+                        ->options($permission)
+                ])
+                ->collapsible()
+                ->collapsed();
+        }
+
         return $form
             ->schema([
                 TextInput::make('name'),
-                CheckboxList::make('permissions')
-                ->options(Permission::class)
+                Section::make()
+                    ->schema([
+                        Repeater::make('permissions')
+                            ->schema($checkboxListSchema)
+                            ->addable(false)
+                            ->deletable(false)
+                    ]),
             ]);
     }
 
@@ -34,13 +64,17 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('updated_at'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

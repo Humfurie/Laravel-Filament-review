@@ -4,6 +4,7 @@ namespace App\Domain\Permission\Enums;
 
 enum PermissionEnum:string
 {
+    case ALL = '*';
     case VIEWANY = "viewAny";
     case VIEW = 'view';
     case CREATE = 'create';
